@@ -19,6 +19,14 @@ document.addEventListener("keydown", (event) => {
 
 document.querySelectorAll("#year").forEach((year) => year.textContent = new Date().getFullYear());
 
+document.querySelectorAll(".back-top").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+  });
+});
+
 // Local slides use the supplied worship photos. The first slide keeps the original dark overlay.
 const slides = [...document.querySelectorAll(".hero-slide")];
 if (slides.length) {
