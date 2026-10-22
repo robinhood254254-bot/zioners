@@ -148,7 +148,7 @@ const revealSelector = [
   ".quote-band > *", ".occasion-heading", ".occasion-list > a", ".booking > *",
   ".inner-split > *", ".service-feature .service-image", ".service-feature .service-copy",
   ".event-type > *", ".event-process > *", ".process-grid article", ".values-grid article",
-  ".journal-story .journal-image", ".journal-story .journal-copy", ".gallery-item",
+  ".journal-story .journal-copy", ".gallery-item",
   ".event-archive-card", ".faq-section > div", ".contact-step-list article",
   ".contact-page-heading > *", ".contact-booking > *", ".leader-feature > *",
   ".band-people-grid article", ".image-story > *", ".identity-card > *", ".mini-cta > *"
