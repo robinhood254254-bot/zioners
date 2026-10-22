@@ -176,7 +176,7 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: "0px 0px -4% 0px" });
+  }, { threshold: 0.01, rootMargin: "0px 0px -2% 0px" });
   revealItems.forEach((item) => revealObserver.observe(item));
 }
 

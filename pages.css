@@ -50,3 +50,13 @@ main section:not(.hero):not(.inner-hero) .arrow-link:hover,.back-top:hover{color
 .slide-arrow:hover{transform:scale(1.08)}
 @media(max-width:650px){.reveal-ready.reveal-from-left{transform:translate3d(-22px,0,0)}.reveal-ready.reveal-from-right{transform:translate3d(22px,0,0)}.reveal-ready.reveal-from-up{transform:translate3d(0,18px,0)}.reveal-ready{transition-duration:.55s}}
 @media(prefers-reduced-motion:reduce){.reveal-ready,.reveal-ready.is-visible{opacity:1!important;transform:none!important;clip-path:none!important;transition:none!important;will-change:auto}.button,.nav-cta,.arrow-link,.back-top,.slide-arrow{transition:none!important}}
+
+
+/* On compact screens, the visible state must win over directional start offsets. */
+@media(max-width:650px){
+  .reveal-ready.is-visible{transform:translate3d(0,0,0)}
+}
+@media(hover:none){
+  main section:not(.hero):not(.inner-hero) .button:active,main section:not(.hero):not(.inner-hero) .nav-cta:active{transform:scale(.98);filter:brightness(1.08)}
+  main section:not(.hero):not(.inner-hero) .arrow-link:active,.back-top:active{color:var(--lime)}
+}
