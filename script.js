@@ -142,13 +142,33 @@ document.querySelectorAll("[data-hero-slides]").forEach((hero) => {
   startHero();
 });
 
-// Bring page sections in gently as they enter the viewport.
-// Reveal individual pieces of content rather than entire long sections. Large
-// gallery and journal sections can never reach a 12% viewport threshold, which
-// would leave their whole contents transparent on some screens.
-const revealItems = document.querySelectorAll(".experience-card, .event-type, .process-grid article, .faq-list details, .contact-step-list article, .values-grid article, .occasion-list > a, .journal-story, .gallery-item, .event-archive-card");
+// Reveal content in alternating directions as it enters view. Hero sections stay static.
+const revealSelector = [
+  ".intro-label", ".intro-layout", ".experience-card", ".section-top", ".genre-note",
+  ".quote-band > *", ".occasion-heading", ".occasion-list > a", ".booking > *",
+  ".inner-split > *", ".service-feature .service-image", ".service-feature .service-copy",
+  ".event-type > *", ".event-process > *", ".process-grid article", ".values-grid article",
+  ".journal-story .journal-image", ".journal-story .journal-copy", ".gallery-item",
+  ".event-archive-card", ".faq-section > div", ".contact-step-list article",
+  ".contact-page-heading > *", ".contact-booking > *", ".leader-feature > *",
+  ".band-people-grid article", ".image-story > *", ".identity-card > *", ".mini-cta > *"
+].join(",");
+const revealItems = [...document.querySelectorAll(revealSelector)].filter((item) => !item.closest(".hero, .inner-hero"));
 if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  revealItems.forEach((item) => item.classList.add("reveal-ready"));
+  revealItems.forEach((item, index) => {
+    const section = item.closest("section");
+    let direction;
+    if (item.matches(".journal-image, .service-image, .leader-photo, .image-story > img")) {
+      direction = item.closest(".service-feature")?.classList.contains("service-reverse") ? "right" : "left";
+    } else if (item.matches(".journal-copy, .service-copy, .leader-copy, .image-story > div")) {
+      direction = item.closest(".service-feature")?.classList.contains("service-reverse") ? "left" : "right";
+    } else {
+      const localIndex = section ? [...section.querySelectorAll(revealSelector)].indexOf(item) : index;
+      direction = localIndex % 4 === 0 ? "left" : localIndex % 4 === 1 ? "right" : localIndex % 4 === 2 ? "up" : "right";
+    }
+    item.classList.add("reveal-ready", `reveal-from-${direction}`);
+    item.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 75}ms`);
+  });
   const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -156,7 +176,7 @@ if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-mot
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.1, rootMargin: "0px 0px -4% 0px" });
   revealItems.forEach((item) => revealObserver.observe(item));
 }
 
