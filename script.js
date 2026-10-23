@@ -150,7 +150,7 @@ const revealSelector = [
   ".event-type > *", ".event-process > *", ".process-grid article", ".values-grid article",
   ".journal-story .journal-copy", ".gallery-item",
   ".event-archive-card", ".faq-section > div", ".contact-step-list article",
-  ".contact-page-heading > *", ".contact-booking > *", ".leader-feature > *",
+  ".contact-page-heading > *", ".contact-booking > *", ".leader-feature .leader-copy",
   ".band-people-grid article", ".image-story > *", ".identity-card > *", ".mini-cta > *"
 ].join(",");
 const revealItems = [...document.querySelectorAll(revealSelector)].filter((item) => !item.closest(".hero, .inner-hero"));
