@@ -1,0 +1,21 @@
+{
+  "name": "zioners",
+  "version": "1.0.0",
+  "description": "The Zioners Band - Live music, made for the moment",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"No tests specified\""
+  },
+  "keywords": [
+    "zioners",
+    "band",
+    "worship",
+    "music",
+    "kenya"
+  ],
+  "author": "The Zioners Band",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
