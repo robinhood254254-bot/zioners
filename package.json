@@ -1,0 +1,12 @@
+{
+  "name": "zioners",
+  "version": "1.0.0",
+  "description": "The Zioners - Live music, made for the moment",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static site - no build step required'"
+  },
+  "dependencies": {
+    "@vercel/speed-insights": "^1.1.0"
+  }
+}
