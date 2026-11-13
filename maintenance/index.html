@@ -69,6 +69,85 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
     }
+
+    form {
+      display: grid;
+      gap: 12px;
+      margin-top: 32px;
+      text-align: left;
+    }
+
+    label {
+      color: #f7f4ed;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .signup-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="email"] {
+      min-width: 0;
+      flex: 1;
+      padding: 13px 14px;
+      border: 1px solid #ffffff35;
+      border-radius: 9px;
+      background: #10100e;
+      color: #f7f4ed;
+      font: inherit;
+    }
+
+    input[type="email"]:focus-visible,
+    button:focus-visible {
+      outline: 2px solid #e4c77f;
+      outline-offset: 3px;
+    }
+
+    button {
+      padding: 13px 17px;
+      border: 0;
+      border-radius: 9px;
+      background: #e4c77f;
+      color: #171612;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.7;
+    }
+
+    .privacy-note,
+    .form-message {
+      margin: 0;
+      color: #aaa69c;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .form-message {
+      min-height: 1.5em;
+      color: #e4c77f;
+    }
+
+    .honeypot {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+      .signup-row { flex-direction: column; }
+      button { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -77,6 +156,50 @@
     <h1>We’ll be back soon.</h1>
     <p>This site is currently under development. Please check back later.</p>
     <div class="status">Site under development</div>
+    <form id="notify-form">
+      <label for="email">Want to know when we’re back?</label>
+      <div class="signup-row">
+        <input id="email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="Your email address" required>
+        <button id="submit-button" type="submit">Notify me</button>
+      </div>
+      <p class="privacy-note">We’ll use your email only to send a site launch update.</p>
+      <label class="honeypot" aria-hidden="true">Leave this field empty
+        <input name="website" type="text" tabindex="-1" autocomplete="off">
+      </label>
+      <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+    </form>
   </main>
+  <script>
+    const form = document.querySelector("#notify-form");
+    const button = document.querySelector("#submit-button");
+    const message = document.querySelector("#form-message");
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      message.textContent = "";
+      button.disabled = true;
+      button.textContent = "Sending…";
+
+      try {
+        const response = await fetch("/api/notify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.elements.email.value,
+            website: form.elements.website.value
+          })
+        });
+
+        if (!response.ok) throw new Error("Request failed");
+        form.reset();
+        message.textContent = "Thanks! We’ll let you know when the site is ready.";
+      } catch {
+        message.textContent = "We couldn’t send that just now. Please try again later.";
+      } finally {
+        button.disabled = false;
+        button.textContent = "Notify me";
+      }
+    });
+  </script>
 </body>
 </html>
